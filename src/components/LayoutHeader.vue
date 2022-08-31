@@ -14,6 +14,12 @@
   </header>
 </template>
 
+<script>
+export default {
+  name: "LayoutHeader",
+};
+</script>
+
 <style scoped>
 .header {
   background-color: var(--primary);
