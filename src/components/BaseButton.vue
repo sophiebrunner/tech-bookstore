@@ -1,5 +1,5 @@
 <template>
-  <button :class="cssBaseButton">{{ text }}</button>
+  <button :class="cssBaseButton" @click="buttonClick">{{ text }}</button>
 </template>
 
 <script>
@@ -23,6 +23,12 @@ export default {
       return ["btn", `btn--${this.variant}`];
     },
   },
+  methods: {
+    buttonClick() {
+      this.$emit("buttonClick");
+    },
+  },
+  emits: ["buttonClick"],
 };
 </script>
 

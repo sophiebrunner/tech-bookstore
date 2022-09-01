@@ -15,7 +15,9 @@
           :key="book.isbn"
           :title="book.title"
           :isbn="book.isbn"
+          :isBookmarked="book.isBookmarked"
           class="table-item__table-row"
+          @toggleBookmark="onToggleBookmark"
         />
       </tbody>
     </table>
@@ -68,6 +70,12 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    onToggleBookmark(isbn) {
+      const book = this.books.find((book) => isbn === book.isbn);
+      book.isBookmarked = !book.isBookmarked;
+    },
   },
 };
 </script>
