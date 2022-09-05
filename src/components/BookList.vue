@@ -15,10 +15,43 @@
           :key="book.isbn"
           :title="book.title"
           :isbn="book.isbn"
-          :isBookmarked="book.isBookmarked"
+          :isBookmarked="book?.isBookmarked"
           class="table-item__table-row"
-          @toggleBookmark="onToggleBookmark"
-        />
+          ><template #actionCol="scopedData">
+            <BaseButton
+              variant="secondary"
+              @buttonClick="onToggleBookmark(scopedData.isbn)"
+            >
+              <svg
+                v-if="!scopedData?.isBookmarked"
+                style="width: 18px; line-height: 1"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                style="width: 18px; line-height: 1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ buttonTxt(scopedData?.isBookmarked) }}</BaseButton
+            ></template
+          ></BookListRow
+        >
       </tbody>
     </table>
   </section>
@@ -26,11 +59,13 @@
 
 <script>
 import BookListRow from "./BookListRow.vue";
+import BaseButton from "./BaseButton.vue";
 
 export default {
   name: "BookList",
   components: {
     BookListRow,
+    BaseButton,
   },
 
   data() {
@@ -73,8 +108,14 @@ export default {
   },
   methods: {
     onToggleBookmark(isbn) {
-      const book = this.books.find((book) => isbn === book.isbn);
-      book.isBookmarked = !book.isBookmarked;
+      const currentBookIndex = this.books.findIndex(
+        (book) => isbn === book.isbn
+      );
+      const currentBook = this.books[currentBookIndex];
+      currentBook.isBookmarked = !currentBook.isBookmarked ? true : false;
+    },
+    buttonTxt(isBookmarked) {
+      return isBookmarked ? "Remove Bookmark" : "Add Bookmark";
     },
   },
 };
@@ -88,6 +129,7 @@ export default {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   width: 100%;
 }
+
 .table-item__table-head-name {
   width: 65%;
 }
@@ -97,17 +139,18 @@ export default {
 .table-item__table-head-actions {
   width: 15%;
 }
-.table-item__table-row button {
+
+/* .table-item__table-row button {
   opacity: 0;
   padding: 5px;
   transition: opacity 500ms;
   cursor: pointer;
   border-radius: 5px;
 }
-
 .table-item__table-row:hover button {
   opacity: 1;
-}
+} */
+
 .table-item__table thead tr {
   background-color: var(--primary);
   color: #ffffff;
@@ -131,6 +174,7 @@ export default {
   font-weight: bold;
   color: var(--primary);
 }
+
 .table-item__hl {
   margin-top: 1rem;
   padding-bottom: 0.4rem;

@@ -1,15 +1,11 @@
 <template>
-  <button :class="cssBaseButton" @click="buttonClick">{{ text }}</button>
+  <button :class="cssBaseButton" @click="buttonClick"><slot /></button>
 </template>
 
 <script>
 export default {
   name: "BaseButton",
   props: {
-    text: {
-      type: String,
-      required: true,
-    },
     variant: {
       type: String,
       default: "primary",

@@ -3,17 +3,25 @@
     <td class="table-item__table-head-name">{{ title }}</td>
     <td class="table-item__table-head-isbn">{{ isbn }}</td>
     <td>
+      <slot
+        name="actionCol"
+        :title="title"
+        :isbn="isbn"
+        :isBookmarked="isBookmarked"
+      />
+      <!--
       <BaseButton
         :text="buttonTxt"
         variant="secondary"
         @buttonClick="onToggleBookmark"
       />
     </td>
+    --></td>
   </tr>
 </template>
 
 <script>
-import BaseButton from "./BaseButton.vue";
+//import BaseButton from "./BaseButton.vue";
 
 export default {
   name: "BookListRow",
@@ -22,7 +30,8 @@ export default {
     isbn: String,
     isBookmarked: Boolean,
   },
-  components: { BaseButton },
+  //components: { BaseButton },
+  /*
   methods: {
     onToggleBookmark() {
       this.$emit("toggleBookmark", this.isbn);
@@ -33,7 +42,7 @@ export default {
       return this.isBookmarked ? "Remove Bookmark" : "Add Bookmark";
     },
   },
-  emits: ["toggleBookmark"],
+  emits: ["toggleBookmark"],*/
 };
 </script>
 
